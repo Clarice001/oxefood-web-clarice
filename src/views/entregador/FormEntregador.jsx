@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
@@ -10,6 +11,58 @@ const ufList = [
 
 class FormEntregador extends React.Component{
 
+	state = {
+
+		nome: '',
+		cpf: '',
+		rg: '',
+		dataNascimento: '',
+		foneCelular: '',
+		foneFixo: '',
+		qtdEntregasRealizadas: '',
+		valorFrete: '',
+		enderecoRua: '',
+		enderecoNumero: '',
+		enderecoBairro: '',
+		enderecoCep: '',
+		enderecoCidade: '',
+		enderecoUf: '',
+		enderecoComplemento: '',
+		ativo: true
+	}
+ 
+	salvar = () => {
+
+		let entregadorRequest = {
+
+			nome: this.state.nome,
+			cpf: this.state.cpf,
+			rg: this.state.rg,
+			dataNascimento: this.state.dataNascimento,
+			foneCelular: this.state.foneCelular,
+			foneFixo: this.state.foneFixo,
+			qtdEntregasRealizadas: this.state.qtdEntregasRealizadas,
+			valorFrete: this.state.valorFrete,
+			enderecoRua: this.state.enderecoRua,
+			enderecoNumero: this.state.enderecoNumero,
+			enderecoBairro: this.state.enderecoBairro,
+			enderecoCep: this.state.enderecoCep,
+			enderecoCidade: this.state.enderecoCep,
+			enderecoUf: this.state.enderecoUf,
+			enderecoComplemento: this.state.enderecoComplemento,
+			ativo: this.state.ativo
+		}
+		axios.post("http://localhost:3000/api/entregador", entregadorRequest)
+		.then((response) => {
+			console.log('Entregador cadastrado com sucesso.')
+		})
+		.catch((error) => {
+			console.log('Erro ao incluir o um Entregador.')
+		})
+	}
+
+
+	
     render(){
         return(
             <div>
@@ -29,25 +82,34 @@ class FormEntregador extends React.Component{
                             <Form.Group>
 
 									<Form.Input
-										required
-                                        fluid
+										fluid
 										label='Nome'
-                                        width={10}>                                
-									</Form.Input>
+										width={10}
+										required
+										value={this.state.nome}
+										onChange={e => this.setState({nome: e.target.value})}
+									/>
 
                                     <Form.Input
 										required
                                         fluid
 										label='CPF'
-                                        width={4}>                        
+                                        width={4}>    
+										<InputMask 
+												mask="999.999.999-99"
+												value={this.state.cpf}
+												onChange={e => this.setState({cpf: e.target.value})}
+												
+											/>                    
 									</Form.Input>
 
-                                    <Form.Input
-                                        
-                                        fluid
-                                        label='RG'
-                                        width={4}>                                                                     
-                                    </Form.Input>
+									<Form.Input
+										fluid
+										label='RG'
+										width={4}
+										value={this.state.rg}
+										onChange={e => this.setState({rg: e.target.value})}
+									/>
 
 								</Form.Group>
 
@@ -57,90 +119,109 @@ class FormEntregador extends React.Component{
 										
                                         fluid
 										label='DT Nascimento'
-                                        width={3}>                                
+                                        width={3}>   
+										<InputMask 
+												mask="99/99/9999" 
+												placeholder="Ex: 20/03/1985"	
+												value={this.state.dataNascimento}
+												onChange={e => this.setState({dataNascimento: e.target.value})}											
+											/>                             
 									</Form.Input>
 
                                     <Form.Input
 										required
                                         fluid
 										label='Fone Celular'
-                                        width={4}>                        
+                                        width={4}>             
+										<InputMask 
+												mask="(99) 99999.9999"
+												value={this.state.foneCelular}
+												onChange={e => this.setState({foneCelular: e.target.value})}
+											/>           
 									</Form.Input>
 
                                     <Form.Input
                                         
                                         fluid
                                         label='Fone Fixo'
-                                        width={4}>                                                                     
+                                        width={4}>    
+										<InputMask 
+												mask="(99) 9999.9999"
+												value={this.state.foneFixo}
+												onChange={e => this.setState({foneFixo: e.target.value})}
+											/>                                                                    
                                     </Form.Input>
 
                                     <Form.Input
-                                        
-                                        fluid
-                                        label='QTD Entregas Realizadas'
-                                        width={3}>                                                                     
-                                    </Form.Input>
+										fluid
+										label='QTD Entregas Realizadas'
+										width={3}
+										value={this.state.qtdEntregasRealizadas}
+										onChange={e => this.setState({qtdEntregasRealizadas: e.target.value})}
+									/>
 
                                     <Form.Input
-                                        
-                                        fluid
-                                        label='Valor por frete'
-                                        width={3}>                                                                     
-                                    </Form.Input>
+										fluid
+										label='Valor Por Frete'
+										width={3}
+										value={this.state.valorFrete}
+										onChange={e => this.setState({valorFrete: e.target.value})}
+									/>
 
 								</Form.Group>
 
 								
 								<Form.Group>
 
-									<Form.Input
-                                        
+								<Form.Input
 										fluid
 										label='Rua'
-                                        width={13}>
-										
-									</Form.Input>
+										width={13}
+										value={this.state.enderecoRua}
+										onChange={e => this.setState({enderecoRua: e.target.value})}
+									/>
 									
                                     <Form.Input
-                                        fluid
-                                        label='Número'
-                                        width={4}>
-                                                                          
-                                    </Form.Input>
+										fluid
+										label='Número'
+										width={3}
+										value={this.state.enderecoNumero}
+										onChange={e => this.setState({enderecoNumero: e.target.value})}
+									/>
 
 								</Form.Group>
 
                                 <Form.Group>
 
-									<Form.Input
-										
-                                        fluid
+								    <Form.Input
+										fluid
 										label='Bairro'
-                                        width={10}>                                
-									</Form.Input>
+										width={7}
+										value={this.state.enderecoBairro}
+										onChange={e => this.setState({enderecoBairro: e.target.value})}
+									/>
 
-                                    <Form.Input
-										
-                                        fluid
+									<Form.Input
+										fluid
 										label='Cidade'
-                                        width={10}>                        
-									</Form.Input>
+										width={7}
+										value={this.state.enderecoCidade}
+										onChange={e => this.setState({enderecoCidade: e.target.value})}
+									/>
 
                                     <Form.Input
                                         
                                         fluid
                                         label='CEP'
-                                        width={4}>                                                                     
+                                        width={4}>
+										<InputMask 
+												mask="99.999-999"
+												value={this.state.enderecoCep}
+												onChange={e => this.setState({enderecoCep: e.target.value})}												
+											/>                                                                     
                                     </Form.Input>
 
 								</Form.Group>
-
-                                    <Form.Input
-                                        
-                                        fluid
-                                        label='UF'
-                                        width={100}>                                                                     
-                                    </Form.Input>
 
                                     <Form.Select
 									fluid
@@ -148,14 +229,18 @@ class FormEntregador extends React.Component{
 									options={ufList}
 									placeholder='Selecione'
 
-								/>
+									value={this.state.enderecoUf}
+									onChange={(e,{value}) => {
+										this.setState({enderecoUf: value})
+									}}
 
+								/>
                                     <Form.Input
-                                        
-                                        fluid
-                                        label='Complmento'
-                                        width={100}>                                                                     
-                                    </Form.Input>
+									fluid
+									label='Complemento'
+									value={this.state.enderecoComplemento}
+									onChange={e => this.setState({enderecoComplemento: e.target.value})}
+								/>
 
                                     <Form.Group inline>
 
@@ -163,12 +248,17 @@ class FormEntregador extends React.Component{
 
 									<Form.Radio
 										label='Sim'
-										
+										checked={this.state.ativo}
+										onChange={e => this.setState({
+											ativo: true })}
 									/>
 									
 									<Form.Radio
 										label='Não'
-										
+										checked={!this.state.ativo}
+										onChange={e => this.setState({
+											ativo: false
+										})}
 									/>
 
 								</Form.Group>

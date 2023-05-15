@@ -1,8 +1,40 @@
+import axios from "axios";
 import React from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 
 class FormProduto extends React.Component{
+
+	state = {
+
+		codigo: null,
+		titulo: null,
+		descricao: null,
+		valorUnitario: null,
+		tempoEntregaMinimo: null,
+		tempoEntregaMaximo: null
+	}
+
+	salvar = () => {
+
+		let produtoRequest = {
+
+			codigo: this.state.codigo,
+			titulo: this.state.titulo,
+			descricao: this.state.descricao,
+			valorUnitario: this.state.valorUnitario,
+			tempoEntregaMinimo: this.state.tempoEntregaMinimo,
+			tempoEntregaMaximo: this.state.tempoEntregaMaximo
+		}
+
+		axios.post("http://localhost:3000/api/produto", produtoRequest)
+		.then((response) => {
+			console.log('Produto cadastrado com sucesso.')
+		})
+		.catch((error) => {
+			console.log('Erro ao incluir o um produto.')
+		})
+	}
 
     render(){
         return(
@@ -30,6 +62,8 @@ class FormProduto extends React.Component{
 
                                         <InputMask                                             
                                             placeholder="Informe o título do produto"
+											value={this.state.titulo}
+											onChange={e => this.setState({titulo: e.target.value})}		
                                         /> 
 									</Form.Input>
 
@@ -41,6 +75,8 @@ class FormProduto extends React.Component{
                                     
                                         <InputMask                                         
                                             placeholder="Informe o código do produto"
+											value={this.state.codigo}
+											onChange={e => this.setState({codigo: e.target.value})}
                                         /> 
                                     </Form.Input>
 
@@ -51,19 +87,23 @@ class FormProduto extends React.Component{
 									placeholder='Informe a descrição do produto'
 									tabIndex='3'
 									maxLength="100000"
-									
+									value={this.state.descricao}
+									onChange={e => this.setState({descricao: e.target.value})}
 								/>
 
 								
 								<Form.Group>
 
-									<Form.Input
-                                        required
+								<Form.Input
+										required
 										fluid
 										label='Valor Unitário'
-                                        width={6}>
-										
-									</Form.Input>
+										tabIndex='5'
+										name='valorUnitario'
+										width={6}
+										value={this.state.valorUnitario}
+										onChange={e => this.setState({valorUnitario: e.target.value})}
+									/>
 
 									<Form.Input
 										fluid
@@ -71,6 +111,8 @@ class FormProduto extends React.Component{
                                         width={6}>
 										<InputMask 
                                             placeholder="30"
+											value={this.state.tempoEntregaMinimo}
+											onChange={e => this.setState({tempoEntregaMinimo: e.target.value})}
                                         /> 
 									</Form.Input>
 
@@ -81,6 +123,8 @@ class FormProduto extends React.Component{
                                     >
                                         <InputMask                                             
                                             placeholder="40"
+											value={this.state.tempoEntregaMaximo}
+											onChange={e => this.setState({tempoEntregaMaximo: e.target.value})}
                                         /> 
                                     </Form.Input>
 
@@ -111,7 +155,7 @@ class FormProduto extends React.Component{
 											color='blue'
 											floated='right'
 											onClick={this.salvar}
-										>
+											tabIndex='8'>
 											<Icon name='save' />
 											Salvar
 										</Button>
