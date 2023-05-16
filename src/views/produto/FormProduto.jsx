@@ -27,7 +27,7 @@ class FormProduto extends React.Component{
 			tempoEntregaMaximo: this.state.tempoEntregaMaximo
 		}
 
-		axios.post("http://localhost:3000/api/produto", produtoRequest)
+		axios.post("http://localhost:8082/api/produto", produtoRequest)
 		.then((response) => {
 			console.log('Produto cadastrado com sucesso.')
 		})

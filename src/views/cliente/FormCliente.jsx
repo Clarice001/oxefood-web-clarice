@@ -25,7 +25,7 @@ class FormCliente extends React.Component{
 			foneFixo: this.state.foneFixo
 		}
 	
-		axios.post("http://localhost:3000/api/cliente", clienteRequest)
+		axios.post("http://localhost:8082/api/cliente", clienteRequest)
 		.then((response) => {
 			console.log('Cliente cadastrado com sucesso.')
 		})
