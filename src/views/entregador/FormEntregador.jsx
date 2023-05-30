@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Link } from "react-router-dom";
 import React from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
@@ -275,8 +276,7 @@ class FormEntregador extends React.Component{
 										color='orange'
 										onClick={this.listar}
 										>
-										<Icon name='reply' />
-										Voltar
+										<Link to={'/list-cliente'}>Voltar</Link>
 									</Button>
 
 									<Container textAlign='right'>

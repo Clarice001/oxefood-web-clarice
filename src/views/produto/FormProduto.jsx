@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { Link } from "react-router-dom";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 
@@ -141,8 +142,7 @@ class FormProduto extends React.Component{
 										color='orange'
 										onClick={this.listar}
 										>
-										<Icon name='reply' />
-										Voltar
+										<Link to={'/list-produto'}>Voltar</Link>
 									</Button>
 
 									<Container textAlign='right'>
