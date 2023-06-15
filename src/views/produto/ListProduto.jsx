@@ -2,14 +2,16 @@ import axios from 'axios';
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Container, Divider, Icon, Table } from 'semantic-ui-react';
+import { ENDERECO_SERVIDOR } from '../../util/Constantes';
 
 class ListProduto extends React.Component{
 
-   state = {
+    state = {
 
-       listaProdutos: []
-      
-   }
+        listaProdutos: [],
+        openModal: false,
+        idRemover: null,
+    }
 
    componentDidMount = () => {
       
@@ -18,9 +20,9 @@ class ListProduto extends React.Component{
    }
    carregarLista = () => {
 
-    axios.get("http://localhost:8082/api/produto")
+    axios.get(ENDERECO_SERVIDOR + "/api/produto")
     .then((response) => {
-       
+      
         this.setState({
             listaProdutos: response.data
         })
@@ -28,19 +30,44 @@ class ListProduto extends React.Component{
 
 };
 
-formatarData = (dataParam) => {
+confirmaRemover = (id) => {
 
-     if (dataParam == null || dataParam == '') {
-         return ''
-     }
-     
-     let dia = dataParam.substr(8,2);
-     let mes = dataParam.substr(5,2);
-     let ano = dataParam.substr(0,4);
-     let dataFormatada = dia + '/' + mes + '/' + ano;
+    this.setState({
+        openModal: true,
+        idRemover: id
+    })  
+}
 
-     return dataFormatada
- };
+setOpenModal = (val) => {
+
+    this.setState({
+        openModal: val
+    })
+
+};
+
+remover = async () => {
+
+    await axios.delete(ENDERECO_SERVIDOR + '/api/produto/' + this.state.idRemover)
+    .then((response) => {
+
+        this.setState({ openModal: false })
+        console.log('Produto removido com sucesso.')
+
+        axios.get(ENDERECO_SERVIDOR + "/api/produto")
+        .then((response) => {
+       
+            this.setState({
+                listaProdutos: response.data
+            })
+        })
+    })
+    .catch((error) => {
+        this.setState({  openModal: false })
+        console.log('Erro ao remover um produto.')
+    })
+};
+
  render(){
     return(
         <div>
@@ -95,18 +122,22 @@ formatarData = (dataParam) => {
                                       <Table.Cell>{produto.tempoEntregaMaximo}</Table.Cell>
                                       <Table.Cell textAlign='center'>
                                          
-                                          <Button
-                                              inverted
-                                              circular
-                                              icon='edit'
-                                              color='blue'
-                                              itle='Clique aqui para editar os dados deste produto' /> &nbsp;
-<Button
+                                      <Button
+                                                inverted
+                                                circular
+                                                color='green'
+                                                title='Clique aqui para editar os dados deste cliente'
+                                                icon>
+                                                    <Link to="/form-produto" state={{id: produto.id}} style={{color: 'green'}}> <Icon name='edit' /> </Link>
+                                            </Button> &nbsp;
+                                                
+                                                <Button
                                                    inverted
                                                    circular
                                                    icon='trash'
                                                    color='red'
-                                                   title='Clique aqui para remover este produto' />
+                                                   title='Clique aqui para remover este produto' 
+                                                   onClick={e => this.confirmaRemover(produto.id)} />
 
                                            </Table.Cell>
                                        </Table.Row>

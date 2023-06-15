@@ -2,14 +2,16 @@ import axios from 'axios';
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Container, Divider, Icon, Table } from 'semantic-ui-react';
+import { ENDERECO_SERVIDOR } from '../../util/Constantes';
 
 class ListEntregador extends React.Component{
 
-   state = {
+    state = {
 
-       listaEntregadores: []
-      
-   }
+        listaEntregadores: [],
+        openModal: false,
+        idRemover: null,
+    }
 
    componentDidMount = () => {
       
@@ -18,9 +20,9 @@ class ListEntregador extends React.Component{
    }
    carregarLista = () => {
 
-    axios.get("http://localhost:8082/api/entregador")
+    axios.get(ENDERECO_SERVIDOR + "/api/entregador")
     .then((response) => {
-       
+      
         this.setState({
             listaEntregadores: response.data
         })
@@ -41,6 +43,23 @@ formatarData = (dataParam) => {
 
      return dataFormatada
  };
+
+ confirmaRemover = (id) => {
+
+    this.setState({
+        openModal: true,
+        idRemover: id
+    })  
+}
+
+setOpenModal = (val) => {
+
+    this.setState({
+        openModal: val
+    })
+
+}; 
+
  render(){
     return(
         <div>
@@ -115,18 +134,22 @@ formatarData = (dataParam) => {
                                       <Table.Cell>{entregador.ativo}</Table.Cell>            
                                       <Table.Cell textAlign='center'>
                                          
-                                          <Button
-                                              inverted
-                                              circular
-                                              icon='edit'
-                                              color='blue'
-                                              itle='Clique aqui para editar os dados deste entregador' /> &nbsp;
-<Button
+                                      <Button
+                                                    inverted
+                                                    circular
+                                                    color='green'
+                                                    title='Clique aqui para editar os dados deste entregador'
+                                                    icon>
+                                                        <Link to="/form-entregador" state={{id: entregador.id}} style={{color: 'green'}}> <Icon name='edit' /> </Link>
+                                                </Button> &nbsp;
+                                                
+                                                <Button
                                                    inverted
                                                    circular
                                                    icon='trash'
                                                    color='red'
-                                                   title='Clique aqui para remover este entregador' />
+                                                   title='Clique aqui para remover este entregador' 
+                                                   onClick={e => this.confirmaRemover(entregador.id)} />
 
                                            </Table.Cell>
                                        </Table.Row>
