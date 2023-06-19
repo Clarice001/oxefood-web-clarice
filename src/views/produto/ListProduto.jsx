@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, Divider, Icon, Table } from 'semantic-ui-react';
+import { Button, Container, Divider, Header, Icon, Modal, Table } from 'semantic-ui-react';
 import { ENDERECO_SERVIDOR } from '../../util/Constantes';
 
 class ListProduto extends React.Component{
@@ -126,7 +126,7 @@ remover = async () => {
                                                 inverted
                                                 circular
                                                 color='green'
-                                                title='Clique aqui para editar os dados deste cliente'
+                                                title='Clique aqui para editar os dados deste produto'
                                                 icon>
                                                     <Link to="/form-produto" state={{id: produto.id}} style={{color: 'green'}}> <Icon name='edit' /> </Link>
                                             </Button> &nbsp;
@@ -148,6 +148,26 @@ remover = async () => {
                        </div>
                    </Container>
                </div>
+               <Modal
+                   			basic
+                   			onClose={() => this.setOpenModal(false)}
+                   			onOpen={() => this.setOpenModal(true)}
+                   			open={this.state.openModal}
+               			>
+                   			<Header icon>
+                       				<Icon name='trash' />
+                       				<div style={{marginTop: '5%'}}> Tem certeza que deseja remover esse registro? </div>
+                   			</Header>
+                   			<Modal.Actions>
+                       				<Button basic color='red' inverted onClick={() => this.setOpenModal(false)}>
+                       					<Icon name='remove' /> Não
+                       				</Button>
+                       				<Button color='green' inverted onClick={() => this.remover()}>
+                       					<Icon name='checkmark' /> Sim
+                       				</Button>
+                   			</Modal.Actions>
+               			</Modal>
+
            </div>
        )
    }
