@@ -8,8 +8,8 @@ export default function FormProduto () {
 
 	const { state } = useLocation();
 
-	const [idProduto, setIdProduto] = useState();
 
+	const [idProduto, setIdProduto] = useState();
 	const [codigo, setCodigo] = useState();
 	const [titulo, setTitulo] = useState();
 	const [descricao, setDescricao] = useState();
@@ -33,6 +33,7 @@ export default function FormProduto () {
 				setValorUnitario(response.data.valorUnitario)
 				setTempoEntregaMinimo(response.data.tempoEntregaMinimo)
 				setTempoEntregaMaximo(response.data.tempoEntregaMaximo)
+				setIdCategoria(response.data.categoria.id)
 			})
 		}
 
@@ -50,10 +51,11 @@ export default function FormProduto () {
 	}, [state])
 
 
-	salvar = () => {
+	function salvar () {
 
 		let produtoRequest = {
 
+			idCategoria: idCategoria,
 			codigo: this.state.codigo,
 			titulo: this.state.titulo,
 			descricao: this.state.descricao,

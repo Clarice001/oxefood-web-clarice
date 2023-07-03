@@ -15,6 +15,9 @@ export default function FormCliente () {
 	const [dataNascimento, setDataNascimento] = useState();
 	const [foneCelular, setFoneCelular] = useState();
 	const [foneFixo, setFoneFixo] = useState();
+	const [listaEndereco, setListaEndereco] = useState([]);
+    const [idEndereco, setIdEndereco] = useState();
+
 
 	useEffect(() => {
 		
@@ -31,9 +34,15 @@ export default function FormCliente () {
 				setDataNascimento(formatarData(response.data.dataNascimento))
 				setFoneCelular(response.data.foneCelular)
 				setFoneFixo(response.data.foneFixo)
+				setIdEndereco(response.data.endereco.id)
 			})
 		}
-		
+		axios.get(ENDERECO_API + "api/enderecocliente")
+       .then((response) => {
+           const dropDownEnderecos = response.data.map(c => ({ text: c.descricao, value: c.id }));
+           setListaEndereco(dropDownEnderecos);
+       })
+
 	}, [state])
 
 	function formatarData(dataParam) {
@@ -54,6 +63,7 @@ export default function FormCliente () {
 
 		let clienteRequest = {
 
+			idEndereco: idEndereco,
 			nome: nome,
 			cpf: cpf,
 			dataNascimento: dataNascimento,
@@ -122,6 +132,19 @@ export default function FormCliente () {
 
 
 								</Form.Group>
+
+								<Form.Select
+											required
+											fluid
+											tabIndex='3'
+											placeholder='Selecione'
+											label='Endereço'
+											options={listaEndereco}
+											value={idEndereco}
+											onChange={(e,{value}) => {
+												setIdEndereco(value)
+											}}
+										/>
 								
 								<Form.Group>
 
@@ -159,6 +182,9 @@ export default function FormCliente () {
 											onChange={e => setDataNascimento(e.target.value)}
                                         /> 
                                     </Form.Input>
+
+									
+
 
 								</Form.Group>
 

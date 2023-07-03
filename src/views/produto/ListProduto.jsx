@@ -101,6 +101,7 @@ remover = async () => {
                               <Table.Row>
                                   <Table.HeaderCell>Título</Table.HeaderCell>
                                   <Table.HeaderCell>Código</Table.HeaderCell>
+                                  <Table.HeaderCell>Categoria</Table.HeaderCell>
                                   <Table.HeaderCell>Descrição</Table.HeaderCell>
                                   <Table.HeaderCell>Valor Unitário</Table.HeaderCell>
                                   <Table.HeaderCell>Tempo de entrega Mínimo em Minutos</Table.HeaderCell>
@@ -115,6 +116,7 @@ remover = async () => {
 
                                   <Table.Row>
                                       <Table.Cell>{produto.codigo}</Table.Cell>
+                                      <Table.Cell>{p.categoria.descricao}</Table.Cell>
                                       <Table.Cell>{produto.titulo}</Table.Cell>
                                       <Table.Cell>{produto.descricao}</Table.Cell>
                                       <Table.Cell>{produto.valorUnitario}</Table.Cell>
